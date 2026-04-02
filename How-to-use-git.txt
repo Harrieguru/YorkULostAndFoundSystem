@@ -29,13 +29,14 @@ Then the branches are merged for the login usecase to work
 
 # Finish your part of the code. Then,
 8. git add . (stay at root folder of project)
-9. git commit -m "My part of project"
-10. git status
-11. git push origin branch/feature/your-feature-name
+9. git status
+10. git commit -m "My part of project"
+11. git status
+12. git push origin branch/feature/your-feature-name
 
 
 
 # Merging after deliverable is finished
-11. Person with most experience can do the merging
+13. Person with most experience can do the merging
 
 
