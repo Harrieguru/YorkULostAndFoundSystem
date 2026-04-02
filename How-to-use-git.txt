@@ -1,0 +1,41 @@
+# Using GIT
+Git is used to allow a group of programmers to work together.
+Git works by making 'branches' and merging them.
+
+EXAMPLE
+Each group member works on specific parts of the program.
+    ie 'branch/backend/login-authentication' by member 1 
+    ie 'branch/frontend/login-page' by member 2
+  
+Then the branches are merged for the login usecase to work
+
+
+# ROADMAP
+
+# Starting (DO THIS ONCE)
+1. Open vscode terminal
+2. CD to folder you want store git project in
+3. 'git clone https://github.com/your-team/project-name.git'
+4. then cd to the project that is now in your folder
+
+# Find latest main of project
+5. git checkout main
+6. git pull origin main
+
+
+# Then, make a branch (your workspace) 
+7. git checkout -b branch/feature/your-feature-name        (name of branch) ie. 'branch/feature/login'
+
+
+# Finish your part of the code. Then,
+8. git add . (stay at root folder of project)
+9. git commit -m "My part of project"
+10. git status
+11. git push origin branch/feature/your-feature-name
+
+
+
+# Merging after deliverable is finished
+11. Person with most experience can do the merging
+
+
