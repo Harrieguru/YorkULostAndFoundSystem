@@ -35,8 +35,11 @@ Then the branches are merged for the login usecase to work
 12. git push origin branch/feature/your-feature-name
 
 
+# Merging after branch is finished
+13. go to github repository
+14. find your branch and click the (...) and do a pull request
+15. pull request will merge your branch with main
 
-# Merging after deliverable is finished
-13. Person with most experience can do the merging
 
-
+# Miscellaneous
+16. run git reset if you accidentally git add . the node_module files
