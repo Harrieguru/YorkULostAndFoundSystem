@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   useEffect(() => {
     async function fetchTestAPI(){
-      const response = await fetch('/api/test');
+      const response = await fetch('/api/test/server-is-online');
       const data = await response.json();
       console.log(data);
     };

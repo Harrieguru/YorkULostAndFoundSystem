@@ -117,3 +117,11 @@ ALTER TABLE basic_user ADD CONSTRAINT unique_user_person_id UNIQUE (person_id);
 
 ALTER TABLE person RENAME COLUMN name TO first_name;
 ALTER TABLE person ADD COLUMN last_name VARCHAR(100);
+
+
+CREATE TABLE dummy_for_backend_testing (
+	test_id serial primary key, 
+	color varchar(40) not null,
+	number integer not null,
+	is_even boolean not null
+);
