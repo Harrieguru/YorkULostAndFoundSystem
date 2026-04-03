@@ -81,11 +81,6 @@ create type item_status_type as enum(
 );
 
 
-
-
-
-
-
 create table lost_items (
 	item_id serial primary key,
 	item_category category_type not null default 'Other',
@@ -115,8 +110,10 @@ create table item_claim(
 ALTER TABLE item_claim 
 ADD CONSTRAINT one_claim_per_user_per_item UNIQUE(user_id, item_id);
 
-
+-- added later
 ALTER TABLE staff ADD CONSTRAINT unique_staff_person_id UNIQUE (person_id); 
 
 ALTER TABLE basic_user ADD CONSTRAINT unique_user_person_id UNIQUE (person_id);
 
+ALTER TABLE person RENAME COLUMN name TO first_name;
+ALTER TABLE person ADD COLUMN last_name VARCHAR(100);
