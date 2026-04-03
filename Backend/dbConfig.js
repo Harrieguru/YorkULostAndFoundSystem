@@ -1,4 +1,4 @@
-
+//Need to add your database configuration info here
 const userName = 'postgres';
 const hostType = 'localhost';
 const databaseName = 'ITEC4010_DB';
