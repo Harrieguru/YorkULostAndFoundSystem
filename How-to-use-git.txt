@@ -24,7 +24,8 @@ Then the branches are merged for the login usecase to work
 
 
 # Then, make a branch (your workspace) 
-7. git checkout -b branch/feature/your-feature-name        (name of branch) ie. 'branch/feature/login'
+7. git checkout -b branch/feature/your-feature-name        (name of branch) ie. 'branch/feature/login' 
+    -m to rename
 
 
 # Finish your part of the code. Then,
