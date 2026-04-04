@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import ItemCard from "../components/ItemCard";
 
 //Constants
 const CATEGORIES = [
@@ -19,15 +21,6 @@ const COLOUR_MAP = {
   Green: "#22c55e",
   Yellow: "#eab308",
 };
-
-// Dummy items
-const ALL_ITEMS = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  label: `Item ${i + 1}`,
-  category: CATEGORIES[i % CATEGORIES.length],
-  colour: COLOURS[i % COLOURS.length],
-  location: "Keele Campus",
-}));
 
 const PAGE_SIZE = 6;
 
@@ -165,42 +158,17 @@ function Sidebar({ filters, onChange, onApply, onClear }) {
   );
 }
 
-// Item Card
-function ItemCard({ item }) {
-  return (
-    <div className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gray-300 transition-all duration-200 cursor-pointer">
-      <div className="aspect-square bg-gray-100 flex items-center justify-center text-gray-300 group-hover:bg-gray-50 transition-colors">
-        <svg
-          className="w-10 h-10"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1}
-            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-          />
-        </svg>
-      </div>
-      <div className="p-3">
-        <p className="text-sm font-semibold text-gray-800">{item.label}</p>
-        <p className="text-xs text-gray-400 mt-0.5">{item.category}</p>
-        <div className="flex items-center gap-1.5 mt-1.5">
-          <span
-            className="w-2.5 h-2.5 rounded-full border border-gray-200 flex-shrink-0"
-            style={{ backgroundColor: COLOUR_MAP[item.colour] ?? "#d1d5db" }}
-          />
-          <span className="text-xs text-gray-500">{item.colour}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // Main Page
 export const SearchInventoryPage = () => {
+  const [allItems, setAllItems] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/production/all-lost-items")
+      .then((res) => setAllItems(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
   // Pending (in-sidebar) state
   const [pendingFilters, setPendingFilters] = useState({
     categories: [],
@@ -235,13 +203,13 @@ export const SearchInventoryPage = () => {
     setVisibleCount(PAGE_SIZE);
   };
 
-  const filtered = ALL_ITEMS.filter((item) => {
+  const filtered = allItems.filter((item) => {
     const catOk =
       appliedFilters.categories.length === 0 ||
-      appliedFilters.categories.includes(item.category);
+      appliedFilters.categories.includes(item.item_category);
     const colOk =
       appliedFilters.colours.length === 0 ||
-      appliedFilters.colours.includes(item.colour);
+      appliedFilters.colours.includes(item.primary_colour);
     return catOk && colOk;
   });
 
@@ -324,7 +292,7 @@ export const SearchInventoryPage = () => {
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {displayed.map((item) => (
-                <ItemCard key={item.id} item={item} />
+                <ItemCard key={item.item_id} item={item} />
               ))}
             </div>
             {hasMore && (
