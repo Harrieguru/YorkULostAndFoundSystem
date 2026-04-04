@@ -1,3 +1,5 @@
+//or just const p = require('pg'); then Pool = p.Pool to store the class
+//leave it like this cuz we are using react
 const { Pool } = require('pg');
 
 //IMPORTANT

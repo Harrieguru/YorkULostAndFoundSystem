@@ -12,10 +12,10 @@
         //Frontend terminal runs: npm run dev
         //backend terminal runs: node server.js
 
-console.log("LOADED THIS SERVER FILE");
+console.log("server file loaded");
 
 const pool = require('./dbHandler.js');
-const path = require('path');
+const path = require('path');   //idk if react needs path, im just used to using it for my other web projects
 const bcrypt = require('bcrypt');
 const express = require('express');
 const testingRoutes = require('./testRoutes.js');
@@ -88,8 +88,11 @@ app.get('/api/production/all-item-reports', async (req, res) => {
 });
 
 const server = app.listen(3000, () => {
-    console.log('Server running on port 3000. run the frontend dev view'); 
+    console.log(`Server running on port 3000. 
+        \n run: \'npm run dev\' inside frontend folder 
+        \n use postman to test API`); 
 
-    //server wasnt working because another process was runnin in the back while hidden on port 3000
+    //README: server wasnt working because another process was runnin in the back while hidden on port 3000
+    //that has wasted so much of my time
     //THE FIX: npx kill-port 3000
 });
