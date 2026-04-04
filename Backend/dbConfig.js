@@ -1,14 +1,14 @@
 //Need to add your database configuration info here
-const userName = 'postgres';
-const hostType = 'localhost';
-const databaseName = 'ITEC4010_DB';
-const databasePass = 'BaltP7M2A';
+const userName = "postgres";
+const hostType = "172.17.0.1";
+const databaseName = "postgres";
+const databasePass = "spongeBob1";
 const port = 5432;
 
 module.exports = {
-    userName,
-    hostType,
-    databaseName,
-    databasePass,
-    port
-}
+  userName,
+  hostType,
+  databaseName,
+  databasePass,
+  port,
+};
