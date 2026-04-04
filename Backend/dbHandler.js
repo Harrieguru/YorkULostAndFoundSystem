@@ -1,9 +1,9 @@
-//or just const p = require('pg'); then Pool = p.Pool to store the class
+//Can use const p = require('pg'); then Pool = p.Pool to store the class instead
 //leave it like this cuz we are using react
 const { Pool } = require('pg');
 
 //IMPORTANT
-//Make a dbconfig.js file in the Backend
+//Make a dbConfig.js file in the Backend
 //This file will not be on git because of git ignore
 const {
     userName,
