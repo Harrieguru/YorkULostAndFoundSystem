@@ -11,7 +11,7 @@ const {
     databaseName,
     databasePass,
     port
-  } = require('./dbConfig.js');
+  } = require('./dbConfig.js'); 
 
 //THIS INFORMATION MUST BE CHANGED DEPENDNING ON WHO IS RUNNING THE DB
 const pool = new Pool({
