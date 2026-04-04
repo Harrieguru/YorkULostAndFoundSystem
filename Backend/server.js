@@ -14,11 +14,12 @@
 
 console.log("server file loaded");
 
-const pool = require('./dbHandler.js');
-const path = require('path');
-const bcrypt = require('bcrypt');
-const express = require('express');
-const testingRoutes = require('./testRoutes.js');
+const pool = require("./dbHandler.js");
+const path = require("path");
+const bcrypt = require("bcrypt");
+const express = require("express");
+const testingRoutes = require("./testRoutes.js");
+const cors = require("cors");
 
 const app = express();
 
@@ -215,8 +216,8 @@ app.patch("/api/production/resolve-report", async (req, res) => {
 });
 
 const server = app.listen(3000, () => {
-    console.log('Server running on port 3000. run the frontend dev view'); 
+  console.log("Server running on port 3000. run the frontend dev view");
 
-    //server wasnt working because another process was runnin in the back while hidden on port 3000
-    //THE FIX: npx kill-port 3000
+  //server wasnt working because another process was runnin in the back while hidden on port 3000
+  //THE FIX: npx kill-port 3000
 });
