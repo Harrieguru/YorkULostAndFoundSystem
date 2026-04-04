@@ -30,9 +30,9 @@ function App() {
           <Route
             path="/staff/add"
             element={
-              // <ProtectedRoute>
-              <StaffAddItemPage />
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <StaffAddItemPage />
+              </ProtectedRoute>
             }
           />
         </Route>
