@@ -1,13 +1,3 @@
-### Tech Stack
-1. Frontend: Vite/React
-2. Backend: Node.js + Express
-3. Database: PostgreSQL
-
-### Developer Tools
-1. VS Code  
-2. Postman
-3. Figma  
-
 ### HOW TO RUN YorkU Lost And Found System 
 # Setting up your database
 1. First run the DatabaseSchema.sql file in PostgreSQL
@@ -23,5 +13,16 @@
 2. in terminal one, cd into backend and run: node server.js
 3. in terminal two, cd into frontend and run: npm run dev
 4. click the link that shows up in terminal after npm run dev has run
+
+### Tech Stack
+1. Frontend: Vite/React
+2. Backend: Node.js + Express
+3. Database: PostgreSQL
+
+### Developer Tools
+1. VS Code  
+2. Postman
+3. Figma  
+
 
 
