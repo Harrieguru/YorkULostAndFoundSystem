@@ -1,18 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import yorkLogo from "../assets/york-logo.png";
 
-const NAV_LINKS = [
-  { label: "Main", to: "/" },
-  { label: "Search Inventory", to: "/search" },
-  { label: "Report Missing Item", to: "/report" },
-];
-
 export default function Navbar() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const isStaff = user.role === "staff";
+
+  const NAV_LINKS = isStaff
+    ? [
+        { label: "Main", to: "/" },
+        { label: "Search Inventory", to: "/search" },
+        { label: "Add Item", to: "/staff/add" },
+      ]
+    : [
+        { label: "Main", to: "/" },
+        { label: "Search Inventory", to: "/search" },
+        { label: "Report Missing Item", to: "/report" },
+      ];
 
   function handleLogout() {
+    localStorage.removeItem("user");
     localStorage.removeItem("token");
-    navigate("login");
+    navigate("/login");
   }
 
   return (

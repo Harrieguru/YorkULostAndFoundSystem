@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "./layouts/MainLayout";
 import LoginPage from "./pages/LoginPage";
@@ -10,11 +11,11 @@ import "./App.css";
 
 function App() {
   useEffect(() => {
-    async function fetchTestAPI(){
-      const response = await fetch('/api/test/server-is-online');
+    async function fetchTestAPI() {
+      const response = await fetch("/api/test/server-is-online");
       const data = await response.json();
       console.log(data);
-    };
+    }
 
     fetchTestAPI();
   }, []);
