@@ -1,0 +1,54 @@
+import { Link, useNavigate } from "react-router-dom";
+import yorkLogo from "../assets/york-logo.png";
+
+const NAV_LINKS = [
+  { label: "Main", to: "/" },
+  { label: "Search Inventory", to: "/search" },
+  { label: "Report Missing Item", to: "/report" },
+];
+
+export default function Navbar() {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("login");
+  }
+
+  return (
+    <>
+      <header className="bg-red-500 text-white">
+        {/* top bar with york logo */}
+        <div className="flex justify-between items-center px-6 py-2 bg-white border-b">
+          <img src={yorkLogo} alt="York University" className="h-25" />
+          <button
+            onClick={handleLogout}
+            className="text-sm text-gray-600 hover:bg-gray-400 cursor-pointer rounded-sm p-2"
+          >
+            Login/Logout
+          </button>
+        </div>
+
+        {/* title bar */}
+        <div className="px-4 py-3">
+          <h1 className="text-medium text-left font-semibold">
+            Lost and found management system
+          </h1>
+        </div>
+
+        {/* nav links */}
+        <nav className="text-left flex gap-1 px-6 pb-2 bg-red-600">
+          {NAV_LINKS.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              className="px-4 py-1.5 text-sm rounded hover:bg-red-500 transition-colors"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </header>
+    </>
+  );
+}
