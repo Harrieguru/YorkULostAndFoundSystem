@@ -44,7 +44,10 @@ Then the branches are merged for the login usecase to work
 
 # Miscellaneous
 16. run git reset if you accidentally git add . the node_module files
-
+17. How to tell if local version of code is the same as github version
+    68f99c9 (HEAD -> main, origin/main, origin/HEAD)
+    if you see main (which is you local code) and origin/main in the same bracket then they are in sync
 
 # Rollback
-17. Can rollback to and old commit using: 'git log --oneline' then 'git checkout [Hexidecimal Code]'
+18. Can rollback to and old commit using: 'git log --oneline' then 'git checkout [Hexidecimal Code]'
+    A commit is like snapshot of your code
