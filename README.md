@@ -1,14 +1,14 @@
-### HOW TO RUN YorkU Lost And Found System 
-# Setting up your database
+# HOW TO RUN YorkU Lost And Found System 
+### Setting up your database
 1. First run the DatabaseSchema.sql file in PostgreSQL
 2. Then run the DatabaseData.sql file in postgreSQL
 
-# Setting up project
+### Setting up project
 1. cd into Frontend and run: npm install
 2. cd into Backend and run: npm install
 3. Create or find the dbConfig.js file in the backend and place your personal database connection configuration data in there 
 
-# Running project Locally
+### Running project Locally
 1. Create two terminal instances in VSCODE
 2. in terminal one, cd into backend and run: node server.js
 3. in terminal two, cd into frontend and run: npm run dev
