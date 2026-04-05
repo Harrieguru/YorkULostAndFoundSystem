@@ -12,7 +12,7 @@
 //Frontend terminal runs: npm run dev
 //backend terminal runs: node server.js
 
-console.log("LOADED THIS SERVER FILE");
+console.log("server file loaded");
 
 const pool = require("./dbHandler.js");
 const path = require("path");

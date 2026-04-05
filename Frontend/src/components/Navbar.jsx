@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import yorkLogo from "../assets/york-logo.png";
+import { useEffect } from "react";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -24,18 +25,41 @@ export default function Navbar() {
     navigate("/login");
   }
 
+  useEffect(() => {
+    console.log(user.username);
+
+    
+
+  }, []);
+
+    let loginFeedback = '';
+
+
+    if(user.username == undefined){
+      loginFeedback = "Welcome, Guest";
+    }
+    else if(user.username != undefined && isStaff == true){
+      loginFeedback = "Welcome, Staff Member: " + user.username;
+    }
+    else{
+      loginFeedback = "Welcome, User: " + user.username;
+    }
+
+
   return (
     <>
       <header className="bg-red-500 text-white">
         {/* top bar with york logo */}
         <div className="flex justify-between items-center px-6 py-2 bg-white border-b">
           <img src={yorkLogo} alt="York University" className="h-25" />
-          <button
-            onClick={handleLogout}
-            className="text-sm text-gray-600 hover:bg-gray-400 cursor-pointer rounded-sm p-2"
-          >
-            Login/Logout
-          </button>
+          <p className="text-sm text-gray-600 rounded-sm "> 
+            {loginFeedback} </p>
+            <button
+              onClick={handleLogout}
+              className="text-sm text-gray-600 hover:bg-gray-400 cursor-pointer rounded-sm p-2"
+            >
+              Login/Logout
+            </button>
         </div>
 
         {/* title bar */}

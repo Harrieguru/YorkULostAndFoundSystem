@@ -9,6 +9,8 @@ import StaffAddItemPage from "./pages/StaffAddItemPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
+
+
 function App() {
   useEffect(() => {
     async function fetchTestAPI() {
