@@ -1,13 +1,17 @@
 --RUN THIS IN POSTGRESQL
 
 --Incase the script must be rerun
+-- Drop tables
 DROP TABLE IF EXISTS item_claim CASCADE;
 DROP TABLE IF EXISTS lost_items CASCADE;
+DROP TABLE IF EXISTS lost_item_report CASCADE;
 DROP TABLE IF EXISTS basic_user CASCADE;
 DROP TABLE IF EXISTS staff CASCADE;
 DROP TABLE IF EXISTS person CASCADE;
 DROP TABLE IF EXISTS passport_york CASCADE;
+DROP TABLE IF EXISTS dummy_for_backend_testing CASCADE;
 
+-- Drop types
 DROP TYPE IF EXISTS claim_status_type CASCADE;
 DROP TYPE IF EXISTS item_status_type CASCADE;
 DROP TYPE IF EXISTS status_type CASCADE;
@@ -16,7 +20,7 @@ DROP TYPE IF EXISTS material_type CASCADE;
 DROP TYPE IF EXISTS colour_type CASCADE;
 
 
---Schema
+--Database Schema
 CREATE TABLE passport_york(
 	cred_id serial primary key,
 	university_username varchar(50) not null unique,
