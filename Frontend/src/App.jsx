@@ -9,7 +9,7 @@ import StaffAddItemPage from "./pages/StaffAddItemPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
-import { useEffect } from "react";
+
 
 function App() {
   useEffect(() => {

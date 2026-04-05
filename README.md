@@ -31,8 +31,14 @@
 3. in terminal two, cd into frontend and run: npm run dev
 4. go to: http://localhost:5173
 
+### How to log in
+1. There are 3 accounts. 1 admin/staff acount and 2 user accounts
+   a. Admin Account     -->     Username: admin, Password: admin
+   b. User Account 1    -->     Username: student, Password: student
+   c. User Account 2    -->     Username: itemHorder, Password: itemHorder
+
 ### Tech Stack
-1. Frontend: Vite/React
+1. Frontend: Vite/React + TailwindCSS
 2. Backend: Node.js + Express
 3. Database: PostgreSQL
 

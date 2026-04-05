@@ -5,12 +5,17 @@ import ItemCard from "../components/ItemCard";
 
 //Constants
 const CATEGORIES = [
-  "Electronic",
+  "Electronics", 
   "Clothing",
-  "Accessories",
+  "Books",
+  "Bags",
+  "Sports", 
   "Documents",
-  "Other",
+  "Identification",
+  "Personal",
+  "Other"
 ];
+
 const COLOURS = ["Blue", "Black", "Red", "White", "Green", "Yellow"];
 
 const COLOUR_MAP = {
@@ -167,13 +172,26 @@ export const SearchInventoryPage = () => {
       .get("http://localhost:3000/api/production/all-lost-items")
       .then((res) => setAllItems(res.data))
       .catch((err) => console.error(err));
-  }, []);
+
+    async function logItems(){
+    
+        const testData = await fetch("http://localhost:3000/api/production/all-lost-items");
+        const proper = await testData.json();
+        console.log(proper);
+    } 
+    
+    logItems();
+
+    }, []);
+
+  
 
   // Pending (in-sidebar) state
   const [pendingFilters, setPendingFilters] = useState({
     categories: [],
     colours: [],
   });
+
   // Applied (committed) state
   const [appliedFilters, setAppliedFilters] = useState({
     categories: [],
@@ -189,6 +207,7 @@ export const SearchInventoryPage = () => {
         ? prev[key].filter((v) => v !== value)
         : [...prev[key], value],
     }));
+    //console.log()
   };
 
   const handleApply = () => {
@@ -204,6 +223,7 @@ export const SearchInventoryPage = () => {
   };
 
   const filtered = allItems.filter((item) => {
+    //console.log("----------- \n" + item.item_category + " "  + appliedFilters.categories);
     const catOk =
       appliedFilters.categories.length === 0 ||
       appliedFilters.categories.includes(item.item_category);
