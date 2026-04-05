@@ -1,17 +1,15 @@
 # HOW TO RUN YorkU Lost And Found System 
 ### Setting up your database
-1. Open 'PostgreSQL/pgAdmin'
-2. Right click the 'Databases' folder in the sidebar, hover over 'Create' then click 'Database'
-3. In 'General', for the 'Database' field, Give the database a name and click 'Save'
-4. Right click the database created in the sidebar and click 'Query Tool'
-5. In the query tool, create a connection to the database by clicking the bar at the top of the subpage and clicking '<New Connection>'
-6. Inside the 'Add New Connection' popup, the 'Server' field should be the default, the 'Database' field should be the one you created earlier and the 'User' is just your account username
-    and the 'Role' field should be left empty
-7. In the query tool, click the folder icon
-8. Find the 'DatabaseSchema.sql' file using the file search, this file is located inside the project folder
-9. Run the file using the play button
-10. Find the 'DatabaseData.sql' file using the file search, this file is located inside the project folder
-11. Repeat step 9
+1. Open PostgreSQL with 'pgAdmin'
+2. Right-click Databases -> Create -> Database
+3. Enter a database name (example: lost_and_found) inside the red field and click Save
+4. Right-click the newly created database -> click Query Tool
+5. Click the folder icon in the Query Tool
+6. In the query tool, click the folder icon
+7. Locate and open DatabaseSchema.sql (the file is inside the project folder)
+8. Run the file using the play button
+9. Repeat steps 5–7 for DatabaseData.sql
+
 
 
 ### Setting up project
@@ -23,11 +21,11 @@
     
 2. cd into Backend and run: npm install
     COMMANDS:
-    cd .\YorkULostAndFoundSystem\
+    cd ..
     cd .\Backend\
     npm install
 
-4. Create or find the dbConfig.js file in the Backend Folder and place your personal database connection configuration data in there 
+3. Create or find the dbConfig.js file in the Backend Folder and place your personal database connection configuration data in there 
     dbConfig.js file should look like this:
 
     const userName = [Your Postgre Username];
@@ -57,7 +55,7 @@
     cd .\YorkULostAndFoundSystem\Frontend\
     npm run dev
    
-5. go to: http://localhost:5173
+4. go to: http://localhost:5173
 
 ### How to log in
 1. There are 3 accounts. 1 admin/staff acount and 2 user accounts
