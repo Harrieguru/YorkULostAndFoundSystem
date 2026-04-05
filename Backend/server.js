@@ -20,6 +20,8 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const testingRoutes = require("./testRoutes.js");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const app = express();
 
@@ -34,6 +36,9 @@ app.get("/", (req, res) => {
 //USE POSTMAN to test API calls
 //use: http://localhost:3000[insert API] ie. http://localhost:3000/api/test/server-is-online
 app.use("/api/test", testingRoutes);
+
+//jwt
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.get("/api/production/all-lost-items", async (req, res) => {
   try {
@@ -86,31 +91,31 @@ app.get("/api/production/all-item-reports", async (req, res) => {
 });
 
 //login route
-app.post("/api/production/login", async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const data = await pool.query(
-      `SELECT py.*, p.person_id, s.staff_id, bu.user_id
-             FROM passport_york py
-             JOIN person p ON p.cred_id = py.cred_id
-             LEFT JOIN staff s ON s.person_id = p.person_id
-             LEFT JOIN basic_user bu ON bu.person_id = p.person_id
-             WHERE py.university_username = $1`,
-      [username],
-    );
-    if (data.rows.length === 0)
-      return res.status(401).json({ error: "Invalid credentials" });
+// app.post("/api/production/login", async (req, res) => {
+//   const { username, password } = req.body;
+//   try {
+//     const data = await pool.query(
+//       `SELECT py.*, p.person_id, s.staff_id, bu.user_id
+//              FROM passport_york py
+//              JOIN person p ON p.cred_id = py.cred_id
+//              LEFT JOIN staff s ON s.person_id = p.person_id
+//              LEFT JOIN basic_user bu ON bu.person_id = p.person_id
+//              WHERE py.university_username = $1`,
+//       [username],
+//     );
+//     if (data.rows.length === 0)
+//       return res.status(401).json({ error: "Invalid credentials" });
 
-    const user = data.rows[0];
-    const valid = await bcrypt.compare(password, user.university_pass_hash);
-    if (!valid) return res.status(401).json({ error: "Invalid credentials" });
+//     const user = data.rows[0];
+//     const valid = await bcrypt.compare(password, user.university_pass_hash);
+//     if (!valid) return res.status(401).json({ error: "Invalid credentials" });
 
-    const role = user.staff_id ? "staff" : "user";
-    res.json({ username, role, userId: user.user_id || user.staff_id });
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+//     const role = user.staff_id ? "staff" : "user";
+//     res.json({ username, role, userId: user.user_id || user.staff_id });
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
 
 //report submission handler
 app.post("/api/production/submit-report", async (req, res) => {
@@ -210,6 +215,40 @@ app.patch("/api/production/resolve-report", async (req, res) => {
       [item_type, first_name, last_name],
     );
     res.json({ success: true });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+//production login with jwt
+app.post("/api/production/login", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const data = await pool.query(
+      `SELECT py.*, p.person_id, s.staff_id, bu.user_id
+       FROM passport_york py
+       JOIN person p ON p.cred_id = py.cred_id
+       LEFT JOIN staff s ON s.person_id = p.person_id
+       LEFT JOIN basic_user bu ON bu.person_id = p.person_id
+       WHERE py.university_username = $1`,
+      [username],
+    );
+
+    if (data.rows.length === 0)
+      return res.status(401).json({ error: "Invalid credentials" });
+
+    const user = data.rows[0];
+    const valid = await bcrypt.compare(password, user.university_pass_hash);
+    if (!valid) return res.status(401).json({ error: "Invalid credentials" });
+
+    const role = user.staff_id ? "staff" : "user";
+    const userId = user.user_id || user.staff_id;
+
+    const token = jwt.sign({ username, role, userId }, JWT_SECRET, {
+      expiresIn: "2h",
+    });
+
+    res.json({ username, role, userId, token });
   } catch (err) {
     res.status(500).send(err);
   }
