@@ -27,11 +27,19 @@ export const LoginPage = () => {
           password,
         },
       );
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("token", res.data.token); // save JWT
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          username: res.data.username,
+          role: res.data.role,
+          userId: res.data.userId,
+        }),
+      );
       navigate("/");
     } catch (err) {
-      setError("Invalid username or password.");
       console.error(err);
+      setError("Invalid username or password.");
     } finally {
       setLoading(false);
     }
