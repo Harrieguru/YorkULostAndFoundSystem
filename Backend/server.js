@@ -14,12 +14,15 @@
 
 console.log("LOADED THIS SERVER FILE");
 
+require("dotenv").config();
 const pool = require("./dbHandler.js");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const testingRoutes = require("./testRoutes.js");
 const cors = require("cors");
+const authenticateToken = require("./authMiddleware");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -106,7 +109,14 @@ app.post("/api/production/login", async (req, res) => {
     if (!valid) return res.status(401).json({ error: "Invalid credentials" });
 
     const role = user.staff_id ? "staff" : "user";
-    res.json({ username, role, userId: user.user_id || user.staff_id });
+    // generate JWT
+    const token = jwt.sign(
+      { username, role, userId: user.user_id || user.staff_id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" },
+    );
+
+    res.json({ username, role, userId: user.user_id || user.staff_id, token });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -149,51 +159,61 @@ app.post("/api/production/submit-report", async (req, res) => {
   }
 });
 //staff endpoint to add a lost item
-app.post("/api/production/add-found-item", async (req, res) => {
-  const {
-    item_category,
-    item_type,
-    brand,
-    material,
-    primary_colour,
-    description,
-    date_found,
-    location_found,
-  } = req.body;
-  try {
-    const user = await pool.query(
-      `SELECT staff_id FROM staff 
+app.post(
+  "/api/production/add-found-item",
+  authenticateToken,
+  async (req, res) => {
+    const {
+      item_category,
+      item_type,
+      brand,
+      material,
+      primary_colour,
+      description,
+      date_found,
+      location_found,
+    } = req.body;
+
+    try {
+      // user info comes from token
+      const username = req.user.username;
+
+      const userRes = await pool.query(
+        `SELECT staff_id FROM staff 
        JOIN person ON staff.person_id = person.person_id
        JOIN passport_york ON person.cred_id = passport_york.cred_id
        WHERE passport_york.university_username = $1`,
-      [req.body.username],
-    );
-    const staff_id = user.rows[0]?.staff_id;
-    if (!staff_id) return res.status(403).json({ error: "Not a staff member" });
+        [username],
+      );
 
-    await pool.query(
-      `INSERT INTO lost_items 
+      const staff_id = userRes.rows[0]?.staff_id;
+      if (!staff_id)
+        return res.status(403).json({ error: "Not a staff member" });
+
+      await pool.query(
+        `INSERT INTO lost_items 
         (item_category, item_type, brand, material, primary_colour, description, date_found, location_found, staff_id)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-      [
-        item_category,
-        item_type,
-        brand,
-        material,
-        primary_colour,
-        description,
-        date_found,
-        location_found,
-        staff_id,
-      ],
-    );
-    res.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err);
-  }
-});
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+        [
+          item_category,
+          item_type,
+          brand,
+          material,
+          primary_colour,
+          description,
+          date_found,
+          location_found,
+          staff_id,
+        ],
+      );
 
+      res.json({ success: true });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
+    }
+  },
+);
 //report resolved
 app.patch("/api/production/resolve-report", async (req, res) => {
   const { first_name, last_name, item_type } = req.body;
