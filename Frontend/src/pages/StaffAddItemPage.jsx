@@ -86,16 +86,38 @@ export const StaffAddItemPage = () => {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  //refined handle submit
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      await axios.post("http://localhost:3000/api/production/add-found-item", {
-        ...form,
-        username: user.username,
-      });
 
+    // Get user and token from localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+      setError("You must be logged in as staff.");
+      return;
+    }
+
+    try {
+      // Add found item with auth header
+      await axios.post(
+        "http://localhost:3000/api/production/add-found-item",
+        {
+          ...form,
+          username: user.username,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: false,
+        },
+      );
+
+      // If a report was selected, resolve it
       if (selectedReport) {
         await axios.patch(
           "http://localhost:3000/api/production/resolve-report",
@@ -104,13 +126,26 @@ export const StaffAddItemPage = () => {
             last_name: selectedReport.last_name,
             item_type: selectedReport.item_type,
           },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
       }
 
       setSubmitted(true);
     } catch (err) {
       console.error(err);
-      setError("Failed to add item. Are you logged in as staff?");
+      // Check if the error is auth-related
+      if (err.response?.status === 401) {
+        setError("Session expired or unauthorized. Please log in again.");
+        // Optional: clear localStorage to force login
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+      } else {
+        setError("Failed to add item. Please try again.");
+      }
     }
   };
 
